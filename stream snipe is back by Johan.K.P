@@ -1,5 +1,8 @@
--- Modified Stream Sniper Script
+--[[ 
+    WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk! 
+]]
 
+-- Old Version: https://raw.githubusercontent.com/Acrillis/SynapseX/master/Synapse%20Scripts/StreamSniper.lua
 local Screenguini = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
 local TextLabel = Instance.new("TextLabel")
@@ -193,7 +196,7 @@ StartButton.MouseButton1Click:Connect(function()
     end
 
     searching = true
-    Status("Teleporting...")
+    Status("Getting user id...")
 
     -- Fetch Username or UserId
     local s, Username, UserId = pcall(function()
@@ -210,7 +213,7 @@ StartButton.MouseButton1Click:Connect(function()
     print("Username: ", Username)  -- Debugging username
     print("UserId: ", UserId)  -- Debugging userId
 
-    -- Fetch Avatar Thumbnail (optional)
+    -- Fetch Avatar Thumbnail
     local s, thumbUrl = pcall(Players.GetUserThumbnailAsync, Players, UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size150x150)
     if s then
         GamerPicture.Image = thumbUrl
@@ -219,7 +222,10 @@ StartButton.MouseButton1Click:Connect(function()
         GamerPicture.Image = "rbxassetid://6319010192"  -- Default Image
     end
 
+    -- Wait for the server search
+    Status("Finding server...")
+
     -- Teleport Logic
     local teleportPlaceId = tonumber(PlaceIdBox.Text) or game.PlaceId
-    TeleportService:Teleport(teleportPlaceId)  -- Teleports immediately to the PlaceId
+    TeleportService:TeleportToPlaceInstance(teleportPlaceId, game.JobId)
 end)
